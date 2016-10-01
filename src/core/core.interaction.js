@@ -56,7 +56,8 @@ module.exports = function(Chart) {
 		var minDistance = Number.POSITIVE_INFINITY;
 		var nearestItems = [];
 		helpers.each(items, function(element) {
-			var distance = Math.round(element.distanceToCenter(eventPosition));
+			var center = element.getCenterPoint();
+			var distance = Math.round(helpers.distanceBetweenPoints(eventPosition, center));
 
 			if (distance < minDistance) {
 				nearestItems = [element];
@@ -232,7 +233,7 @@ module.exports = function(Chart) {
 			 * @param options {IInteractionOptions} options to use
 			 * @return {Chart.Element[]} Array of elements that are under the point. If none are found, an empty array is returned
 			 */
-			x: function(chartInstance, e, options) {
+			x: function(chartInstance, e) {
 				var eventPosition = helpers.getRelativePosition(e, chartInstance.chart);
 				var items = getAllItems(chartInstance).filter(function(item) {
 					return item.inXRange(eventPosition.x);
@@ -248,7 +249,7 @@ module.exports = function(Chart) {
 			 * @param options {IInteractionOptions} options to use
 			 * @return {Chart.Element[]} Array of elements that are under the point. If none are found, an empty array is returned
 			 */
-			y: function(chartInstance, e, options) {
+			y: function(chartInstance, e) {
 				var eventPosition = helpers.getRelativePosition(e, chartInstance.chart);
 				var items = getAllItems(chartInstance).filter(function(item) {
 					return item.inYRange(eventPosition.x);

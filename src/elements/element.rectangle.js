@@ -116,7 +116,7 @@ module.exports = function(Chart) {
 				var bounds = getBarBounds(this);
 				inRange = mouseX >= bounds.left && mouseX <= bounds.right && mouseY >= bounds.top && mouseY <= bounds.bottom;
 			}
-			
+
 			return inRange;
 		},
 		inLabelRange: function(mouseX, mouseY) {
@@ -142,12 +142,22 @@ module.exports = function(Chart) {
 			var bounds = getBarBounds(this);
 			return mouseY >= bounds.top && mouseY <= bounds.bottom;
 		},
-		distanceToCenter: function(point) {
+		getCenterPoint: function() {
 			var vm = this._view;
-			return Chart.helpers.distanceBetweenPoints(point, {
-				x: vm.x,
-				y: (vm.y + vm.base) / 2
-			});
+			var center;
+			if (isVertical(this)) {
+				center = {
+					x: vm.x,
+					y: (vm.y + vm.base) / 2
+				};
+			} else {
+				center = {
+					x: (vm.x + vm.base) / 2,
+					y: vm.y
+				};
+			}
+
+			return center;
 		},
 		getArea: function() {
 			var vm = this._view;
